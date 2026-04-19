@@ -1,0 +1,108 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <div class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">Encontre o seu Nutricionista</h1>
+          <p class="mt-2 text-gray-600">Pesquise por nome do profissional, serviço ou localização</p>
+        </div>
+        <div>
+          <%= link_to "Área do Nutricionista →", nutritionists_pending_requests_path(nutritionist_id: 1), class: "px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Form -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <%= form_with url: nutritionists_path, method: :get, local: true, class: "bg-white rounded-lg shadow-md p-6" do |f| %>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Search Query -->
+        <div class="md:col-span-2">
+          <%= f.label :query, "Nome do Nutricionista ou Serviço", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= f.text_field :query, 
+              value: @query,
+              placeholder: "Ex: Nutrição Desportiva, Ana Silva...", 
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+        </div>
+
+        <!-- Location -->
+        <div>
+          <%= f.label :location, "Localização", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= f.text_field :location, 
+              value: @location,
+              placeholder: "Ex: Braga, Porto...", 
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="mt-4">
+        <%= f.submit "Pesquisar", class: "w-full md:w-auto px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer transition" %>
+      </div>
+    <% end %>
+
+    <!-- Search Info -->
+    <div class="mt-4 text-sm text-gray-600">
+      <% if @query.present? %>
+        Resultados para "<strong><%= @query %></strong>" em <strong><%= @location %></strong>
+      <% else %>
+        Mostrando nutricionistas em <strong><%= @location %></strong>
+      <% end %>
+      (<%= pluralize(@nutritionists.count, 'nutricionista', 'nutricionistas') %>)
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+    <% if @nutritionists.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% @nutritionists.each do |nutritionist| %>
+          <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+            <!-- Card Header -->
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
+              <h2 class="text-xl font-bold text-white"><%= nutritionist.name %></h2>
+              <p class="text-blue-100 text-sm mt-1">
+                <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <%= nutritionist.location %>
+              </p>
+            </div>
+
+            <!-- Services List -->
+            <div class="px-6 py-4">
+              <h3 class="text-sm font-semibold text-gray-700 mb-3">Serviços:</h3>
+              <ul class="space-y-2">
+                <% nutritionist.services.each do |service| %>
+                  <li class="flex justify-between items-center text-sm">
+                    <span class="text-gray-700"><%= service.name %></span>
+                    <span class="font-semibold text-blue-600">€<%= number_to_currency(service.price, unit: '', precision: 2) %></span>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+            <!-- Schedule Button -->
+            <div class="px-6 pb-6">
+              <%= link_to "Marcar Consulta", 
+                  new_appointment_request_path(nutritionist_id: nutritionist.id), 
+                  class: "block w-full text-center px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <!-- No Results -->
+      <div class="bg-white rounded-lg shadow-md p-12 text-center">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Nenhum nutricionista encontrado</h3>
+        <p class="mt-2 text-gray-500">Tente ajustar os seus critérios de pesquisa</p>
+      </div>
+    <% end %>
+  </div>
+</div>

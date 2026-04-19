@@ -1,0 +1,27 @@
+✅ CONSULTA CONFIRMADA
+
+Olá <%= @appointment_request.guest_name %>,
+
+Ótimas notícias! O seu pedido de consulta foi ACEITE pelo nutricionista.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DETALHES DA CONSULTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Nutricionista: <%= @nutritionist.name %>
+Localização: <%= @nutritionist.location %>
+
+Serviço: <%= @service.name %>
+Preço: €<%= number_to_currency(@service.price, unit: '', precision: 2) %>
+
+Data: <%= @appointment_request.desired_date.strftime('%d de %B de %Y') %>
+Hora: <%= @appointment_request.desired_time.strftime('%H:%M') %>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Por favor, chegue com 10 minutos de antecedência e traga consigo um documento de identificação.
+
+Se precisar de reagendar ou cancelar, entre em contacto diretamente com o nutricionista.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Este é um email automático. Por favor não responda diretamente a esta mensagem.

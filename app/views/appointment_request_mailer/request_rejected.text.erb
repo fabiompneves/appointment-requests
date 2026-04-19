@@ -1,0 +1,29 @@
+PEDIDO DE CONSULTA
+
+Olá <%= @appointment_request.guest_name %>,
+
+Informamos que o seu pedido de consulta não pôde ser aceite pelo nutricionista neste momento.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DETALHES DO PEDIDO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Nutricionista: <%= @nutritionist.name %>
+Localização: <%= @nutritionist.location %>
+
+Serviço: <%= @service.name %>
+
+Data solicitada: <%= @appointment_request.desired_date.strftime('%d de %B de %Y') %>
+Hora solicitada: <%= @appointment_request.desired_time.strftime('%H:%M') %>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Possíveis razões:
+• Horário já não está disponível
+• O nutricionista não tem disponibilidade na data solicitada  
+• Conflito de agenda
+
+Pode fazer um novo pedido com uma data/hora diferente ou contactar diretamente o nutricionista para verificar disponibilidade.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Este é um email automático. Por favor não responda diretamente a esta mensagem.

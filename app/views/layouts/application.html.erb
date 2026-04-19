@@ -25,7 +25,35 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <!-- Flash Messages -->
+    <% if flash.any? %>
+      <div class="fixed top-4 right-4 z-50 space-y-2" id="flash-messages">
+        <% flash.each do |type, message| %>
+          <div class="max-w-md px-6 py-4 rounded-lg shadow-lg <%= type == 'notice' ? 'bg-green-500' : 'bg-red-500' %> text-white">
+            <div class="flex items-center justify-between">
+              <p class="font-medium"><%= message %></p>
+              <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <script>
+        setTimeout(function() {
+          const flashMessages = document.getElementById('flash-messages');
+          if (flashMessages) {
+            flashMessages.style.transition = 'opacity 0.5s';
+            flashMessages.style.opacity = '0';
+            setTimeout(() => flashMessages.remove(), 500);
+          }
+        }, 5000);
+      </script>
+    <% end %>
+
+    <main>
       <%= yield %>
     </main>
   </body>

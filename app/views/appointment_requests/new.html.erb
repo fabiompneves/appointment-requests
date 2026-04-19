@@ -1,0 +1,125 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Back Link -->
+    <div class="mb-4">
+      <%= link_to "← Voltar à pesquisa", root_path, class: "text-blue-600 hover:text-blue-800" %>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-green-500 to-green-600 px-6 py-6">
+        <h1 class="text-2xl font-bold text-white">Marcar Consulta</h1>
+        <p class="text-green-100 mt-2">
+          <strong><%= @nutritionist.name %></strong>
+          <span class="mx-2">•</span>
+          <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <%= @nutritionist.location %>
+        </p>
+      </div>
+
+      <!-- Form -->
+      <div class="px-6 py-8">
+        <%= form_with model: @appointment_request, url: appointment_requests_path, local: true, class: "space-y-6" do |f| %>
+          <%= f.hidden_field :nutritionist_id, value: @nutritionist.id %>
+          
+          <!-- Error Messages -->
+          <% if @appointment_request.errors.any? %>
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+              <h3 class="text-sm font-semibold text-red-800 mb-2">
+                <%= pluralize(@appointment_request.errors.count, "erro") %> encontrado:
+              </h3>
+              <ul class="list-disc list-inside text-sm text-red-700 space-y-1">
+                <% @appointment_request.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <!-- Service Selection -->
+          <div>
+            <%= f.label :service_id, "Serviço", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.select :service_id,
+                options_from_collection_for_select(@nutritionist.services, :id, ->(s) { "#{s.name} - €#{number_to_currency(s.price, unit: '', precision: 2)}" }, @appointment_request.service_id),
+                { prompt: "Selecione um serviço..." },
+                class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent #{'border-red-300' if @appointment_request.errors[:service_id].any?}" %>
+            <% if @appointment_request.errors[:service_id].any? %>
+              <p class="mt-1 text-sm text-red-600"><%= @appointment_request.errors[:service_id].first %></p>
+            <% end %>
+          </div>
+
+          <!-- Guest Name -->
+          <div>
+            <%= f.label :guest_name, "Nome Completo", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.text_field :guest_name,
+                placeholder: "João Silva",
+                class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent #{'border-red-300' if @appointment_request.errors[:guest_name].any?}" %>
+            <% if @appointment_request.errors[:guest_name].any? %>
+              <p class="mt-1 text-sm text-red-600"><%= @appointment_request.errors[:guest_name].first %></p>
+            <% end %>
+          </div>
+
+          <!-- Guest Email -->
+          <div>
+            <%= f.label :guest_email, "Email", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.email_field :guest_email,
+                placeholder: "joao.silva@example.com",
+                class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent #{'border-red-300' if @appointment_request.errors[:guest_email].any?}" %>
+            <% if @appointment_request.errors[:guest_email].any? %>
+              <p class="mt-1 text-sm text-red-600"><%= @appointment_request.errors[:guest_email].first %></p>
+            <% end %>
+            <p class="mt-1 text-sm text-gray-500">
+              Receberá a confirmação neste email. Se já tiver um pedido pendente, o mesmo será cancelado.
+            </p>
+          </div>
+
+          <!-- Date and Time -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Desired Date -->
+            <div>
+              <%= f.label :desired_date, "Data Pretendida", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= f.date_field :desired_date,
+                  min: Date.today,
+                  class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent #{'border-red-300' if @appointment_request.errors[:desired_date].any?}" %>
+              <% if @appointment_request.errors[:desired_date].any? %>
+                <p class="mt-1 text-sm text-red-600"><%= @appointment_request.errors[:desired_date].first %></p>
+              <% end %>
+            </div>
+
+            <!-- Desired Time -->
+            <div>
+              <%= f.label :desired_time, "Hora Pretendida", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= f.time_field :desired_time,
+                  class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent #{'border-red-300' if @appointment_request.errors[:desired_time].any?}" %>
+              <% if @appointment_request.errors[:desired_time].any? %>
+                <p class="mt-1 text-sm text-red-600"><%= @appointment_request.errors[:desired_time].first %></p>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Info Box -->
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div class="flex">
+              <svg class="h-5 w-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <p class="text-sm text-blue-800">
+                O seu pedido será enviado ao nutricionista que irá confirmar ou recusar conforme a sua disponibilidade.
+              </p>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="flex gap-4">
+            <%= link_to "Cancelar", root_path, class: "px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition" %>
+            <%= f.submit "Enviar Pedido", class: "flex-1 px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 cursor-pointer transition" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

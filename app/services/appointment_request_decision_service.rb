@@ -13,10 +13,10 @@ class AppointmentRequestDecisionService
 
     ActiveRecord::Base.transaction do
       overlapping_requests_to_notify = find_overlapping_requests.to_a
-      
+
       reject_overlapping_requests
-      
-      appointment_request.update!(status: 'accepted')
+
+      appointment_request.update!(status: "accepted")
     end
 
     send_acceptance_email
@@ -31,10 +31,10 @@ class AppointmentRequestDecisionService
   def reject
     return false unless validate_can_reject
 
-    appointment_request.update!(status: 'rejected')
-    
+    appointment_request.update!(status: "rejected")
+
     send_rejection_email
-    
+
     true
   rescue StandardError => e
     @errors << e.message
@@ -71,7 +71,7 @@ class AppointmentRequestDecisionService
   end
 
   def reject_overlapping_requests
-    find_overlapping_requests.update_all(status: 'rejected')
+    find_overlapping_requests.update_all(status: "rejected")
   end
 
   def send_acceptance_email

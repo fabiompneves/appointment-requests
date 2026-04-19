@@ -3,7 +3,7 @@ class AppointmentRequestMailer < ApplicationMailer
     @appointment_request = appointment_request
     @nutritionist = appointment_request.nutritionist
     @service = appointment_request.service
-    
+
     mail(
       to: appointment_request.guest_email,
       subject: "Consulta Confirmada - #{@nutritionist.name}"
@@ -14,7 +14,7 @@ class AppointmentRequestMailer < ApplicationMailer
     @appointment_request = appointment_request
     @nutritionist = appointment_request.nutritionist
     @service = appointment_request.service
-    
+
     mail(
       to: appointment_request.guest_email,
       subject: "Pedido de Consulta - #{@nutritionist.name}"

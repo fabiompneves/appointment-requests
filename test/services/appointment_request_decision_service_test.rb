@@ -2,7 +2,7 @@ require "test_helper"
 
 class AppointmentRequestDecisionServiceTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
-  
+
   def setup
     @nutritionist = Nutritionist.create!(name: "Dra. Test", location: "Porto")
     @service = @nutritionist.services.create!(name: "Consulta Geral", price: 50)
@@ -19,7 +19,7 @@ class AppointmentRequestDecisionServiceTest < ActiveSupport::TestCase
 
   test "should accept a pending request" do
     service = AppointmentRequestDecisionService.new(@appointment_request)
-    
+
     assert service.accept
     assert_equal "accepted", @appointment_request.reload.status
   end
@@ -27,7 +27,7 @@ class AppointmentRequestDecisionServiceTest < ActiveSupport::TestCase
   test "should not accept non-pending request" do
     @appointment_request.update!(status: "rejected")
     service = AppointmentRequestDecisionService.new(@appointment_request)
-    
+
     assert_not service.accept
     assert_includes service.errors, "Only pending requests can be accepted"
   end
@@ -76,7 +76,7 @@ class AppointmentRequestDecisionServiceTest < ActiveSupport::TestCase
 
   test "should not reject non-overlapping requests when accepting" do
     date = Date.tomorrow
-    
+
     request_14 = AppointmentRequest.create!(
       nutritionist: @nutritionist,
       service: @service,
@@ -145,7 +145,7 @@ class AppointmentRequestDecisionServiceTest < ActiveSupport::TestCase
 
     service = AppointmentRequestDecisionService.new(request1)
     assert service.accept
-    
+
     assert_equal "accepted", request1.reload.status
     assert_equal "rejected", request2.reload.status
     assert_equal "rejected", request3.reload.status
@@ -153,7 +153,7 @@ class AppointmentRequestDecisionServiceTest < ActiveSupport::TestCase
 
   test "should reject a pending request" do
     service = AppointmentRequestDecisionService.new(@appointment_request)
-    
+
     assert service.reject
     assert_equal "rejected", @appointment_request.reload.status
   end
@@ -161,7 +161,7 @@ class AppointmentRequestDecisionServiceTest < ActiveSupport::TestCase
   test "should not reject non-pending request" do
     @appointment_request.update!(status: "accepted")
     service = AppointmentRequestDecisionService.new(@appointment_request)
-    
+
     assert_not service.reject
     assert_includes service.errors, "Only pending requests can be rejected"
   end

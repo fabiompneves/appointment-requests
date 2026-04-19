@@ -6,7 +6,7 @@ module Api
       def setup
         @nutritionist = Nutritionist.create!(name: "Dra. Ana Silva", location: "Porto")
         @service = @nutritionist.services.create!(name: "Consulta Geral", price: 50)
-        
+
         @appointment_request = AppointmentRequest.create!(
           nutritionist: @nutritionist,
           service: @service,
@@ -21,13 +21,13 @@ module Api
       # Accept endpoint tests
       test "should accept appointment request" do
         patch accept_api_v1_appointment_request_path(@appointment_request), as: :json
-        
+
         assert_response :success
-        
+
         json = JSON.parse(response.body)
         assert_equal true, json["success"]
         assert_equal "Appointment request accepted successfully", json["message"]
-        
+
         # Check status changed
         @appointment_request.reload
         assert_equal "accepted", @appointment_request.status
@@ -35,9 +35,9 @@ module Api
 
       test "should return appointment data after accepting" do
         patch accept_api_v1_appointment_request_path(@appointment_request), as: :json
-        
+
         assert_response :success
-        
+
         json = JSON.parse(response.body)
         assert json["appointment_request"].present?
         assert_equal @appointment_request.id, json["appointment_request"]["id"]
@@ -61,11 +61,11 @@ module Api
           desired_time: @appointment_request.desired_time,
           status: "pending"
         )
-        
+
         patch accept_api_v1_appointment_request_path(@appointment_request), as: :json
-        
+
         assert_response :success
-        
+
         # Overlapping request should be rejected
         overlapping_request.reload
         assert_equal "rejected", overlapping_request.status
@@ -73,9 +73,9 @@ module Api
 
       test "should return 404 for nonexistent appointment request on accept" do
         patch accept_api_v1_appointment_request_path(id: 99999), as: :json
-        
+
         assert_response :not_found
-        
+
         json = JSON.parse(response.body)
         assert_equal false, json["success"]
         assert_equal "Appointment request not found", json["error"]
@@ -83,11 +83,11 @@ module Api
 
       test "should return error when trying to accept already accepted request" do
         @appointment_request.update!(status: "accepted")
-        
+
         patch accept_api_v1_appointment_request_path(@appointment_request), as: :json
-        
+
         assert_response :unprocessable_entity
-        
+
         json = JSON.parse(response.body)
         assert_equal false, json["success"]
         assert json["errors"].present?
@@ -96,13 +96,13 @@ module Api
       # Reject endpoint tests
       test "should reject appointment request" do
         patch reject_api_v1_appointment_request_path(@appointment_request), as: :json
-        
+
         assert_response :success
-        
+
         json = JSON.parse(response.body)
         assert_equal true, json["success"]
         assert_equal "Appointment request rejected", json["message"]
-        
+
         # Check status changed
         @appointment_request.reload
         assert_equal "rejected", @appointment_request.status
@@ -110,9 +110,9 @@ module Api
 
       test "should return appointment data after rejecting" do
         patch reject_api_v1_appointment_request_path(@appointment_request), as: :json
-        
+
         assert_response :success
-        
+
         json = JSON.parse(response.body)
         assert json["appointment_request"].present?
         assert_equal @appointment_request.id, json["appointment_request"]["id"]
@@ -127,9 +127,9 @@ module Api
 
       test "should return 404 for nonexistent appointment request on reject" do
         patch reject_api_v1_appointment_request_path(id: 99999), as: :json
-        
+
         assert_response :not_found
-        
+
         json = JSON.parse(response.body)
         assert_equal false, json["success"]
         assert_equal "Appointment request not found", json["error"]
@@ -137,11 +137,11 @@ module Api
 
       test "should return error when trying to reject already rejected request" do
         @appointment_request.update!(status: "rejected")
-        
+
         patch reject_api_v1_appointment_request_path(@appointment_request), as: :json
-        
+
         assert_response :unprocessable_entity
-        
+
         json = JSON.parse(response.body)
         assert_equal false, json["success"]
         assert json["errors"].present?
@@ -149,12 +149,12 @@ module Api
 
       test "should include service data in response" do
         patch accept_api_v1_appointment_request_path(@appointment_request), as: :json
-        
+
         assert_response :success
-        
+
         json = JSON.parse(response.body)
         service_data = json["appointment_request"]["service"]
-        
+
         assert service_data.present?
         assert_equal @service.id, service_data["id"]
         assert_equal "Consulta Geral", service_data["name"]
@@ -163,9 +163,9 @@ module Api
 
       test "should format time correctly in response" do
         patch accept_api_v1_appointment_request_path(@appointment_request), as: :json
-        
+
         assert_response :success
-        
+
         json = JSON.parse(response.body)
         assert_match(/\A\d{2}:\d{2}\z/, json["appointment_request"]["desired_time"])
       end

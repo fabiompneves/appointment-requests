@@ -98,7 +98,7 @@ class AppointmentRequestTest < ActiveSupport::TestCase
 
   test "for_guest scope should filter by email" do
     guest_email = "specific@example.com"
-    
+
     matching = AppointmentRequest.create!(
       nutritionist: @nutritionist,
       service: @service,

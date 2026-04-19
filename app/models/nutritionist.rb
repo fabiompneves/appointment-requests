@@ -7,9 +7,9 @@ class Nutritionist < ApplicationRecord
 
   scope :search, ->(query, location) {
     joins(:services)
-      .where('nutritionists.location ILIKE ?', "%#{sanitize_sql_like(location)}%")
+      .where("nutritionists.location ILIKE ?", "%#{sanitize_sql_like(location)}%")
       .where(
-        'nutritionists.name ILIKE ? OR services.name ILIKE ?',
+        "nutritionists.name ILIKE ? OR services.name ILIKE ?",
         "%#{sanitize_sql_like(query)}%",
         "%#{sanitize_sql_like(query)}%"
       )

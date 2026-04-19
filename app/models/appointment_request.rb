@@ -8,7 +8,7 @@ class AppointmentRequest < ApplicationRecord
   validates :desired_time, presence: true
   validates :status, presence: true, inclusion: { in: %w[pending accepted rejected invalidated] }
 
-  scope :pending, -> { where(status: 'pending') }
+  scope :pending, -> { where(status: "pending") }
   scope :for_guest, ->(email) { where(guest_email: email) }
   scope :for_nutritionist, ->(nutritionist_id) { where(nutritionist_id: nutritionist_id) }
   scope :overlapping, ->(nutritionist_id, date, time) {
@@ -16,18 +16,18 @@ class AppointmentRequest < ApplicationRecord
   }
 
   def pending?
-    status == 'pending'
+    status == "pending"
   end
 
   def accepted?
-    status == 'accepted'
+    status == "accepted"
   end
 
   def rejected?
-    status == 'rejected'
+    status == "rejected"
   end
 
   def invalidated?
-    status == 'invalidated'
+    status == "invalidated"
   end
 end

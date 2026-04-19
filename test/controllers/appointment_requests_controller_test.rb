@@ -59,7 +59,7 @@ class AppointmentRequestsControllerTest < ActionDispatch::IntegrationTest
 
     # First request should be invalidated
     assert_equal "invalidated", first_request.reload.status
-    
+
     # New request should be pending
     new_request = AppointmentRequest.last
     assert_equal "pending", new_request.status

@@ -96,7 +96,7 @@ appointment_requests = []
 nutritionists.first(5).each_with_index do |nutritionist, index|
   service = nutritionist.services.sample
   guest = guests[index]
-  
+
   appointment_requests << AppointmentRequest.create!(
     nutritionist: nutritionist,
     service: service,
@@ -113,14 +113,14 @@ end
   nutritionist = nutritionists.sample
   service = nutritionist.services.sample
   guest = guests.sample
-  
+
   appointment_requests << AppointmentRequest.create!(
     nutritionist: nutritionist,
     service: service,
     guest_name: guest[:name],
     guest_email: guest[:email],
     desired_date: Date.today + rand(1..7).days,
-    desired_time: Time.zone.parse("#{[9, 11, 14, 15, 16].sample}:#{[0, 30].sample}"),
+    desired_time: Time.zone.parse("#{[ 9, 11, 14, 15, 16 ].sample}:#{[ 0, 30 ].sample}"),
     status: "pending"
   )
 end
@@ -130,14 +130,14 @@ end
   nutritionist = nutritionists.sample
   service = nutritionist.services.sample
   guest = guests.sample
-  
+
   appointment_requests << AppointmentRequest.create!(
     nutritionist: nutritionist,
     service: service,
     guest_name: guest[:name],
     guest_email: guest[:email],
     desired_date: Date.today - rand(1..7).days,
-    desired_time: Time.zone.parse("#{[10, 11, 14, 15].sample}:00"),
+    desired_time: Time.zone.parse("#{[ 10, 11, 14, 15 ].sample}:00"),
     status: "accepted"
   )
 end
@@ -147,14 +147,14 @@ end
   nutritionist = nutritionists.sample
   service = nutritionist.services.sample
   guest = guests.sample
-  
+
   appointment_requests << AppointmentRequest.create!(
     nutritionist: nutritionist,
     service: service,
     guest_name: guest[:name],
     guest_email: guest[:email],
     desired_date: Date.today - rand(1..5).days,
-    desired_time: Time.zone.parse("#{[9, 10, 11].sample}:30"),
+    desired_time: Time.zone.parse("#{[ 9, 10, 11 ].sample}:30"),
     status: "rejected"
   )
 end

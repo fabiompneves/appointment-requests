@@ -9,6 +9,6 @@ class CreateServices < ActiveRecord::Migration[8.1]
     end
 
     add_index :services, :name
-    add_index :services, [:nutritionist_id, :name]
+    add_index :services, [ :nutritionist_id, :name ]
   end
 end

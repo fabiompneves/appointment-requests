@@ -3,18 +3,18 @@ Rails.application.routes.draw do
 
   # Root path - public search page
   root "nutritionists#index"
-  
+
   # Nutritionists search
-  resources :nutritionists, only: [:index]
-  
+  resources :nutritionists, only: [ :index ]
+
   # Appointment requests
-  resources :appointment_requests, only: [:new, :create]
-  
+  resources :appointment_requests, only: [ :new, :create ]
+
   # Nutritionist pending requests (React page)
   namespace :nutritionists do
-    resources :pending_requests, only: [:index]
+    resources :pending_requests, only: [ :index ]
   end
-  
+
   # API endpoints for nutritionist actions
   namespace :api do
     namespace :v1 do
@@ -24,7 +24,7 @@ Rails.application.routes.draw do
           patch :reject
         end
       end
-      
+
       resources :nutritionists, only: [] do
         member do
           get :pending_requests

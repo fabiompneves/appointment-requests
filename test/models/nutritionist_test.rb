@@ -51,7 +51,7 @@ class NutritionistTest < ActiveSupport::TestCase
   test "should filter by location in search" do
     braga_nutritionist = Nutritionist.create!(name: "Dr. Braga", location: "Braga")
     braga_nutritionist.services.create!(name: "Consulta", price: 50)
-    
+
     porto_nutritionist = Nutritionist.create!(name: "Dr. Porto", location: "Porto")
     porto_nutritionist.services.create!(name: "Consulta", price: 50)
 

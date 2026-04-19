@@ -3,12 +3,12 @@ module Api
     class NutritionistsController < ApplicationController
       def pending_requests
         nutritionist = Nutritionist.find(params[:id])
-        
+
         requests = nutritionist.appointment_requests
           .pending
           .includes(:service)
           .order(desired_date: :asc, desired_time: :asc)
-        
+
         render json: {
           success: true,
           nutritionist: {
@@ -19,18 +19,18 @@ module Api
           requests: requests.map { |request| format_request(request) }
         }
       rescue ActiveRecord::RecordNotFound
-        render json: { success: false, error: 'Nutritionist not found' }, status: :not_found
+        render json: { success: false, error: "Nutritionist not found" }, status: :not_found
       end
-      
+
       private
-      
+
       def format_request(request)
         {
           id: request.id,
           guest_name: request.guest_name,
           guest_email: request.guest_email,
           desired_date: request.desired_date,
-          desired_time: request.desired_time.strftime('%H:%M'),
+          desired_time: request.desired_time.strftime("%H:%M"),
           status: request.status,
           service: {
             id: request.service.id,

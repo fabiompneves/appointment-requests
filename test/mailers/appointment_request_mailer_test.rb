@@ -18,7 +18,7 @@ class AppointmentRequestMailerTest < ActionMailer::TestCase
   test "request_accepted sends email with correct details" do
     mail = AppointmentRequestMailer.request_accepted(@appointment_request)
 
-    assert_equal "Consulta Confirmada - Dra. Ana Silva", mail.subject
+    assert_equal "Appointment Confirmed - Dra. Ana Silva", mail.subject
     assert_equal [ "joao@example.com" ], mail.to
     assert_equal [ "noreply@nutricionistas.pt" ], mail.from
 
@@ -33,7 +33,7 @@ class AppointmentRequestMailerTest < ActionMailer::TestCase
   test "request_rejected sends email with correct details" do
     mail = AppointmentRequestMailer.request_rejected(@appointment_request)
 
-    assert_equal "Pedido de Consulta - Dra. Ana Silva", mail.subject
+    assert_equal "Appointment Request - Dra. Ana Silva", mail.subject
     assert_equal [ "joao@example.com" ], mail.to
     assert_equal [ "noreply@nutricionistas.pt" ], mail.from
 

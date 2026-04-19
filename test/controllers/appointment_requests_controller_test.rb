@@ -26,7 +26,7 @@ class AppointmentRequestsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to root_path
-    assert_equal "Pedido de consulta enviado com sucesso! Aguarde confirmação do nutricionista.", flash[:notice]
+    assert_equal "Appointment request sent successfully! Awaiting nutritionist confirmation.", flash[:notice]
   end
 
   test "should invalidate previous pending request from same guest" do

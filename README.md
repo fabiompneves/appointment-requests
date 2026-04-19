@@ -2,15 +2,6 @@
 
 A web application for managing appointment requests between guests and nutritionists. Built with Ruby on Rails and React.
 
-## Features
-
-- **Public Search**: Search for nutritionists by name, service, or location (defaults to Braga)
-- **Appointment Requests**: Guests can request appointments with their preferred nutritionist
-- **Request Management**: Nutritionists can view, accept, or reject pending appointment requests via a React interface
-- **Smart Conflict Resolution**: When a nutritionist accepts an appointment, all overlapping pending requests are automatically rejected
-- **Email Notifications**: Guests receive email notifications when their requests are accepted or rejected
-- **One Request Per Guest**: Each guest email can only have one pending appointment request at a time
-
 ## Tech Stack
 
 - **Ruby**: 3.4.6
@@ -30,56 +21,25 @@ A web application for managing appointment requests between guests and nutrition
 
 ## Setup Instructions
 
-### 1. Clone the repository
+### Quick Setup (Recommended)
 
 ```bash
+# Clone the repository
 git clone git@github.com:fabiompneves/appointment-requests.git
 cd appointment-requests
+
+# Run the automated setup script
+bin/setup
 ```
 
-### 2. Install dependencies
-
-```bash
-# Install Ruby gems
-bundle install
-
-# Install JavaScript dependencies
-npm install
-```
-
-### 3. Database setup
-
-```bash
-# Create database
-bin/rails db:create
-
-# Run migrations
-bin/rails db:migrate
-
-# Seed the database with sample data
-bin/rails db:seed
-```
-
-The seed data includes:
-- 12 nutritionists across Braga, Porto, and Lisboa
-- 50+ services (Consulta Geral, Nutrição Desportiva, Emagrecimento, etc.)
-- Sample pending appointment requests for testing
-
-### 4. Build assets
-
-```bash
-# Build JavaScript assets
-npm run build
-
-# Or use the Rails asset compilation
-bin/rails assets:precompile
-```
+**Setup Options:**
+- `bin/setup` - Normal setup (preserves existing data)
+- `bin/setup --reset` - Reset database and re-seed
+- `bin/setup --no-server` - Skip starting the server
 
 ## Running the Application
 
 ### Development Mode
-
-#### Option 1: Using bin/dev (recommended)
 
 ```bash
 bin/dev
@@ -122,13 +82,6 @@ bin/rails test test/controllers/
 bin/rails test test/mailers/
 ```
 
-The backend test suite includes:
-- **80 tests** covering all business logic
-- Model validations and associations
-- Service layer business rules (overlap detection, one pending per guest)
-- Controller/request specs (including API endpoints)
-- Email delivery specs
-
 ### Frontend Tests (Jest + React Testing Library)
 
 Run the React component tests:
@@ -143,16 +96,6 @@ npm run test:watch
 # Run tests with coverage report
 npm run test:coverage
 ```
-
-The frontend test suite includes:
-- **23 tests** covering the PendingRequestsApp React component
-- Loading states and error handling
-- Empty state display
-- Request list rendering and data display
-- Accept/reject actions with confirmations
-- API call verification
-- Alert messages and user feedback
-- Date formatting
 
 ### Total Test Coverage
 
@@ -181,8 +124,6 @@ The project includes a GitHub Actions workflow that automatically runs on every 
 - Backend tests (80 Rails tests)
 - Frontend tests (23 Jest tests)
 ```
-
-View CI status: [GitHub Actions](https://github.com/fabiompneves/appointment-requests/actions)
 
 ## Email Preview in Development
 

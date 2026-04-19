@@ -6,7 +6,7 @@ class AppointmentRequestMailer < ApplicationMailer
 
     mail(
       to: appointment_request.guest_email,
-      subject: "Consulta Confirmada - #{@nutritionist.name}"
+      subject: "Appointment Confirmed - #{@nutritionist.name}"
     )
   end
 
@@ -17,7 +17,7 @@ class AppointmentRequestMailer < ApplicationMailer
 
     mail(
       to: appointment_request.guest_email,
-      subject: "Pedido de Consulta - #{@nutritionist.name}"
+      subject: "Appointment Request - #{@nutritionist.name}"
     )
   end
 end

@@ -15,7 +15,7 @@ class AppointmentRequestsController < ApplicationController
 
       @appointment_request.save!
 
-      redirect_to root_path, notice: "Pedido de consulta enviado com sucesso! Aguarde confirmação do nutricionista."
+      redirect_to root_path, notice: "Appointment request sent successfully! Awaiting nutritionist confirmation."
     else
       render :new, status: :unprocessable_entity
     end

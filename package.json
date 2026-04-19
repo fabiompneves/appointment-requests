@@ -2,7 +2,7 @@
   "name": "app",
   "private": true,
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --external:@hotwired/* --external:controllers --loader:.jsx=jsx",
+    "build": "esbuild app/javascript/*.* app/javascript/pages/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --external:@hotwired/* --external:controllers --loader:.jsx=jsx",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"

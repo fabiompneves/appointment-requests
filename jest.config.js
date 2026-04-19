@@ -12,7 +12,6 @@ module.exports = {
     '**/?(*.)+(spec|test).[jt]s?(x)'
   ],
   collectCoverageFrom: [
-    'app/js/**/*.{js,jsx}',
     'app/javascript/**/*.{js,jsx}',
     '!**/node_modules/**',
     '!**/vendor/**',

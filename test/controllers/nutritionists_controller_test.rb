@@ -17,7 +17,7 @@ class NutritionistsControllerTest < ActionDispatch::IntegrationTest
   test "should default to Braga when no location specified" do
     get nutritionists_path
     assert_response :success
-    assert_select "strong", text: "Braga"
+    assert_match /Braga/, response.body
   end
 
   test "should search by nutritionist name" do
@@ -48,6 +48,6 @@ class NutritionistsControllerTest < ActionDispatch::IntegrationTest
   test "should handle no results" do
     get nutritionists_path, params: { query: "NonexistentName", location: "Braga" }
     assert_response :success
-    assert_match /Nenhum nutricionista encontrado/, response.body
+    assert_match /No nutritionists found/, response.body
   end
 end

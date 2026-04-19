@@ -154,6 +154,36 @@ The frontend test suite includes:
 - Alert messages and user feedback
 - Date formatting
 
+### Total Test Coverage
+
+**103 tests total** across backend and frontend:
+- ✅ 80 Rails tests (models, services, controllers, mailers, API)
+- ✅ 23 Jest tests (React components)
+
+All business requirements are tested:
+- ✅ Search filtering (name, service, location)
+- ✅ One pending request per guest email
+- ✅ Appointment request creation
+- ✅ Accept/reject actions
+- ✅ Auto-rejection of overlapping pending requests
+- ✅ Email notification triggers
+- ✅ Status transitions and validations
+- ✅ React UI interactions and state management
+
+### Continuous Integration
+
+The project includes a GitHub Actions workflow that automatically runs on every push:
+
+```yaml
+# .github/workflows/ci.yml runs:
+- Security scans (Brakeman, Bundler Audit)
+- Code quality checks (RuboCop)
+- Backend tests (80 Rails tests)
+- Frontend tests (23 Jest tests)
+```
+
+View CI status: [GitHub Actions](https://github.com/fabiompneves/appointment-requests/actions)
+
 ## Email Preview in Development
 
 When the app sends emails in development, they automatically open in your browser thanks to `letter_opener`. Check your browser for new tabs after accepting/rejecting requests.

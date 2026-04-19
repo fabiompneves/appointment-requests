@@ -123,10 +123,10 @@ bin/rails test test/mailers/
 ```
 
 The backend test suite includes:
-- **57 tests** covering all business logic
+- **80 tests** covering all business logic
 - Model validations and associations
 - Service layer business rules (overlap detection, one pending per guest)
-- Controller/request specs
+- Controller/request specs (including API endpoints)
 - Email delivery specs
 
 ### Frontend Tests (Jest + React Testing Library)
